@@ -93,7 +93,7 @@ private func functions(forByteOffset byteOffset: Int, in dictionary: SourceKitte
                 return
         }
 
-        if let kind = dictionary.kind.flatMap(SwiftDeclarationKind.init),
+        if let kind = dictionary.declarationKind,
             SwiftDeclarationKind.functionKinds.contains(kind) {
             results.append(dictionary)
         }
