@@ -15,6 +15,11 @@
   [PaulTaykalo](https://github.com/PaulTaykalo)
   [#2918](https://github.com/realm/SwiftLint/issues/2918)
 
+* Optimize mark rule to perform structure check first and then
+  run regular expressions.   
+  [PaulTaykalo](https://github.com/PaulTaykalo)
+  [#2926](https://github.com/realm/SwiftLint/issues/2926)
+
 #### Bug Fixes
 
 * None.
