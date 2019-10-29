@@ -15,6 +15,10 @@
   [PaulTaykalo](https://github.com/PaulTaykalo)
   [#2918](https://github.com/realm/SwiftLint/issues/2918)
 
+* Use unique file id for each SiwftLintFile for caching  
+  [PaulTaykalo](https://github.com/PaulTaykalo)
+  [#2929](https://github.com/realm/SwiftLint/issues/2929)  
+
 #### Bug Fixes
 
 * None.
