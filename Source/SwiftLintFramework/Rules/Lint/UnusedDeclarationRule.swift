@@ -68,7 +68,7 @@ public struct UnusedDeclarationRule: AutomaticTestableRule, ConfigurationProvide
         requiresFileOnDisk: true
     )
 
-    public func collectInfo(for file: File, compilerArguments: [String]) -> UnusedDeclarationRule.FileUSRs {
+    public func collectInfo(for file: SwiftLintFile, compilerArguments: [String]) -> UnusedDeclarationRule.FileUSRs {
         guard !compilerArguments.isEmpty else {
             queuedPrintError("""
                 Attempted to lint file at path '\(file.path ?? "...")' with the \
@@ -78,13 +78,13 @@ public struct UnusedDeclarationRule: AutomaticTestableRule, ConfigurationProvide
         }
 
         let allCursorInfo = file.allCursorInfo(compilerArguments: compilerArguments)
-        return FileUSRs(referenced: Set(File.referencedUSRs(allCursorInfo: allCursorInfo)),
-                        declared: File.declaredUSRs(allCursorInfo: allCursorInfo,
-                                                    includePublicAndOpen: configuration.includePublicAndOpen),
-                        testCaseUSRs: File.testCaseUSRs(allCursorInfo: allCursorInfo))
+        return FileUSRs(referenced: Set(SwiftLintFile.referencedUSRs(allCursorInfo: allCursorInfo)),
+                        declared: SwiftLintFile.declaredUSRs(allCursorInfo: allCursorInfo,
+                                                             includePublicAndOpen: configuration.includePublicAndOpen),
+                        testCaseUSRs: SwiftLintFile.testCaseUSRs(allCursorInfo: allCursorInfo))
     }
 
-    public func validate(file: File, collectedInfo: [File: UnusedDeclarationRule.FileUSRs],
+    public func validate(file: SwiftLintFile, collectedInfo: [SwiftLintFile: UnusedDeclarationRule.FileUSRs],
                          compilerArguments: [String]) -> [StyleViolation] {
         let allReferencedUSRs = collectedInfo.values.reduce(into: Set()) { $0.formUnion($1.referenced) }
         let allTestCaseUSRs = collectedInfo.values.reduce(into: Set()) { $0.formUnion($1.testCaseUSRs) }
@@ -99,7 +99,7 @@ public struct UnusedDeclarationRule: AutomaticTestableRule, ConfigurationProvide
             }
     }
 
-    private func violationOffsets(in file: File, compilerArguments: [String],
+    private func violationOffsets(in file: SwiftLintFile, compilerArguments: [String],
                                   declaredUSRs: [(usr: String, nameOffset: Int)],
                                   allReferencedUSRs: Set<String>,
                                   allTestCaseUSRs: Set<String>) -> [Int] {
@@ -125,9 +125,9 @@ public struct UnusedDeclarationRule: AutomaticTestableRule, ConfigurationProvide
 
 // MARK: - File Extensions
 
-private extension File {
+private extension SwiftLintFile {
     func allCursorInfo(compilerArguments: [String]) -> [[String: SourceKitRepresentable]] {
-        guard let path = path, let editorOpen = try? Request.editorOpen(file: self).sendIfNotDisabled() else {
+        guard let path = path, let editorOpen = try? Request.editorOpen(file: self.file).sendIfNotDisabled() else {
             return []
         }
 
@@ -142,7 +142,7 @@ private extension File {
                 return nil
             }
 
-            if let acl = File.aclAtOffset(offset, substructureElement: editorOpen) {
+            if let acl = SwiftLintFile.aclAtOffset(offset, substructureElement: editorOpen) {
                 cursorInfo["key.accessibility"] = acl
             }
             cursorInfo["swiftlint.offset"] = offset
@@ -243,7 +243,7 @@ private extension File {
         if let substructure = substructureElement[SwiftDocKey.substructure.rawValue] as? [SourceKitRepresentable] {
             let nestedSubstructure = substructure.compactMap({ $0 as? [String: SourceKitRepresentable] })
             for child in nestedSubstructure {
-                if let acl = File.aclAtOffset(offset, substructureElement: child) {
+                if let acl = SwiftLintFile.aclAtOffset(offset, substructureElement: child) {
                     return acl
                 }
             }
