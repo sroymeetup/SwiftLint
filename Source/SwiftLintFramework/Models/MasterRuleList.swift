@@ -33,6 +33,7 @@ public let masterRuleList = RuleList(rules: [
     DiscouragedOptionalCollectionRule.self,
     DuplicateEnumCasesRule.self,
     DuplicateImportsRule.self,
+    DuplicateLocalizedStringKeyRule.self,
     DynamicInlineRule.self,
     EmptyCollectionLiteralRule.self,
     EmptyCountRule.self,
