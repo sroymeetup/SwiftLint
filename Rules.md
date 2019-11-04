@@ -32,6 +32,7 @@
 * [Discouraged Optional Collection](#discouraged-optional-collection)
 * [Duplicate Enum Cases](#duplicate-enum-cases)
 * [Duplicate Imports](#duplicate-imports)
+* [Duplicate Localized String Key](#duplicate-localized-string-key)
 * [Dynamic Inline](#dynamic-inline)
 * [Empty Collection Literal](#empty-collection-literal)
 * [Empty Count](#empty-count)
@@ -5433,6 +5434,37 @@ import A.B
 ```swift
 import A.B
 ↓import func A.B.Foo
+```
+
+</details>
+
+
+
+## Duplicate Localized String Key
+
+Identifier | Enabled by default | Supports autocorrection | Kind | Analyzer | Minimum Swift Compiler Version
+--- | --- | --- | --- | --- | ---
+`duplicate_localized_string_key` | Disabled | No | lint | No | 3.0.0 
+
+Keys used in NSLocalizedString should be unique.
+
+### Examples
+
+<details>
+<summary>Non Triggering Examples</summary>
+
+```swift
+NSLocalizedString("key 1", value:"Some text", comment: "...")
+NSLocalizedString("key 2", value:"Some other text", comment: "...")
+```
+
+</details>
+<details>
+<summary>Triggering Examples</summary>
+
+```swift
+NSLocalizedString("key", value:"Some text", comment: "...")
+NSLocalizedString(↓"key", value:"Some other text", comment: "...")
 ```
 
 </details>

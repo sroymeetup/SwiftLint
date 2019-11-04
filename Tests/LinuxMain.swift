@@ -346,6 +346,12 @@ extension DuplicateImportsRuleTests {
     ]
 }
 
+extension DuplicateLocalizedStringKeyRuleTests {
+    static var allTests: [(String, (DuplicateLocalizedStringKeyRuleTests) -> () throws -> Void)] = [
+        ("testWithDefaultConfiguration", testWithDefaultConfiguration)
+    ]
+}
+
 extension DynamicInlineRuleTests {
     static var allTests: [(String, (DynamicInlineRuleTests) -> () throws -> Void)] = [
         ("testWithDefaultConfiguration", testWithDefaultConfiguration)
@@ -1612,6 +1618,7 @@ XCTMain([
     testCase(DocumentationTests.allTests),
     testCase(DuplicateEnumCasesRuleTests.allTests),
     testCase(DuplicateImportsRuleTests.allTests),
+    testCase(DuplicateLocalizedStringKeyRuleTests.allTests),
     testCase(DynamicInlineRuleTests.allTests),
     testCase(EmptyCollectionLiteralRuleTests.allTests),
     testCase(EmptyCountRuleTests.allTests),

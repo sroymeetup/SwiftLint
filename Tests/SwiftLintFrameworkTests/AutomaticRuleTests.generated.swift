@@ -126,6 +126,12 @@ class DuplicateImportsRuleTests: XCTestCase {
     }
 }
 
+class DuplicateLocalizedStringKeyRuleTests: XCTestCase {
+    func testWithDefaultConfiguration() {
+        verifyRule(DuplicateLocalizedStringKeyRule.description)
+    }
+}
+
 class DynamicInlineRuleTests: XCTestCase {
     func testWithDefaultConfiguration() {
         verifyRule(DynamicInlineRule.description)
